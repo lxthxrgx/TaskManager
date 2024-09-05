@@ -1,62 +1,87 @@
-﻿.signup {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f7f7f7;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.signup-container {
+﻿.signup-container {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 90vh;
+}
+
+
+.signup {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 
     .signup input[type="text"],
     .signup input[type="password"] {
-        width: 100%;
+        margin-bottom: 20px;
         padding: 10px;
-        margin-bottom: 15px;
-        border: 1px solid #ccc;
         border-radius: 5px;
+        border: 1px solid #ccc;
         font-size: 16px;
-        transition: border-color 0.3s ease;
+        background-color: #f9f9f9;
+        transition: border 0.3s;
     }
 
         .signup input[type="text"]:focus,
         .signup input[type="password"]:focus {
-            border-color: #4caf50;
+            border: 1px solid #6a11cb;
             outline: none;
         }
 
     .signup button {
-        width: 100% !important;
-        padding: 10px;
-        background-color: #4caf50;
-        color: white;
-        font-size: 18px;
-        border: none;
+        padding: 12px;
+        font-size: 16px;
         border-radius: 5px;
+        border: none;
+        background-color: #6a11cb;
+        color: white;
         cursor: pointer;
-        transition: background-color 0.3s ease;
+        transition: background-color 0.3s;
     }
 
         .signup button:hover {
-            background-color: #45a049;
+            background-color: #2575fc;
         }
 
-.text-danger {
-    color: red;
-    font-size: 14px;
-    margin-top: -10px;
-    margin-bottom: 15px;
-    display: none;
+.alert {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f44336;
+    color: white;
+    border-radius: 5px;
 }
 
-top-row.px-4 {
-    padding-bottom: 15px !important;
-    padding-left: 15px !important;
-    padding-right: 15px !important;
+    .alert h4 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .alert p {
+        margin: 5px 0 0;
+        font-size: 14px;
+    }
+
+@media (max-width: 600px) {
+    .signup {
+        padding: 30px;
+    }
+
+        .signup input[type="text"],
+        .signup input[type="password"] {
+            padding: 8px;
+            font-size: 14px;
+        }
+
+        .signup button {
+            padding: 10px;
+            font-size: 14px;
+        }
 }

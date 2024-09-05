@@ -27,16 +27,20 @@ namespace TaskManager.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
+            var user = _context.Users.SingleOrDefault(x => x.Username == Username);
 
-            var userUsername = _context.Users.Select(x => x.Username).FirstOrDefault();
-            var userPassword = _context.Users.Select(x => x.Password).FirstOrDefault();
+            if (user == null)
+            {
+                ShowError = true;
+                return Page();
+            }
 
-            if (Username == userUsername && Password == HashHelper.ComputeSha512Hash(userPassword))
+            if (Password == HashHelper.ComputeSha512Hash(user.Password))
             {
                 var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, Username)
-            };
+        {
+            new Claim(ClaimTypes.Name, Username)
+        };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -48,6 +52,8 @@ namespace TaskManager.Pages
             ShowError = true;
             return Page();
         }
+
+
     }
 
 }
