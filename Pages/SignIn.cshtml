@@ -1,0 +1,22 @@
+﻿@page "/sign-in"
+@model SignInModel
+@{
+    ViewData["Title"] = "Sign In";
+}
+
+<form class="login" method="post">
+    <input type="text" placeholder="Username" asp-for="Username" />
+    <input type="password" placeholder="Password" asp-for="Password" />
+    <button type="submit">Sign In</button>
+    @if (Model.ShowError)
+    {
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Ошибка!</h4>
+            <p>Неверное имя пользователя или пароль. Пожалуйста, попробуйте снова.</p>
+        </div>
+    }
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

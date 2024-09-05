@@ -21,11 +21,13 @@ namespace TaskManager.Pages
         }
 
         public List<EmploymentClass> UserEmployment { get; set; } = new List<EmploymentClass>();
+
+        [BindProperty]
         public string NameEmployment { get; set; }
 
         public async Task OnGetAsync()
         {
-            await SeedTestDataAsync();
+            //await SeedTestDataAsync();
             var username = User.Identity.Name;
 
             var useridFromUser = await _context.Users
@@ -37,7 +39,7 @@ namespace TaskManager.Pages
                 .Where(ue => ue.UserId == useridFromUser)
                 .Select(ue => ue.Employment)
                 .ToListAsync();
-
+            Console.WriteLine(NameEmployment + "----------------------");
         }
 
         private async Task SeedTestDataAsync()
@@ -80,9 +82,40 @@ namespace TaskManager.Pages
 
         public async Task<IActionResult> OnPostSaveEmploymentAsync()
         {
-            var employment = new EmploymentClass { EmploymentName = NameEmployment };
-            _context.employments.Add(employment);
-            await _context.SaveChangesAsync();
+           
+            try
+            {
+                Console.WriteLine(NameEmployment+"----------------------");
+                var employment = new EmploymentClass { EmploymentName = NameEmployment };
+                _context.employments.Add(employment);
+                await _context.SaveChangesAsync();
+
+                var username = User.Identity.Name;
+
+                var useridFromUser = await _context.Users
+                    .Where(x => x.Username == username)
+                    .Select(x => x.Id)
+                    .FirstOrDefaultAsync();
+
+                var userEmployment = new UserEmployment
+                {
+                    UserId = useridFromUser,
+                    EmploymentId = employment.Id
+                };
+                _context.UserEmployments.Add(userEmployment);
+                await _context.SaveChangesAsync();
+                var statuses = new List<Status>
+            {
+                new Status { Name = "Open", EmpName = employment.EmploymentName, EmploymentId = employment.Id },
+                new Status { Name = "In Progress", EmpName = employment.EmploymentName, EmploymentId = employment.Id },
+                new Status { Name = "Closed", EmpName = employment.EmploymentName, EmploymentId = employment.Id }
+            };
+                _context.Statuses.AddRange(statuses);
+
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex) { Console.WriteLine($"MESSAGE: {ex}"); }
+           
 
             return RedirectToPage();
         }

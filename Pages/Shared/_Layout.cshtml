@@ -26,12 +26,6 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/sign-up">Sign Up</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/sign-in">Sign In</a>
-                        </li>
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
@@ -42,6 +36,16 @@
                                     <button type="submit" class="btn btn-link nav-link text-dark">Logout</button>
                                 </form>
                             </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/sign-up">Sign Up</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/sign-in">Sign In</a>
+                            </li>
+                            
                         }
                     </ul>
                 </div>
