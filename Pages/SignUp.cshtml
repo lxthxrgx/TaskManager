@@ -1,0 +1,19 @@
+﻿@page "/sign-up"
+@model TaskManager.Pages.SignUpModel
+@{
+}
+<div class="signup-container">
+    <form method="post">
+        <input type="text" name="Username" placeholder="Username" value="@Model.Username" />
+        <input type="password" name="Password1" placeholder="Password" />
+        <input type="password" name="Password2" placeholder="Confirm Password" />
+        <button type="submit">Sign Up</button>
+        @if (Model.ShowError)
+        {
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Ошибка!</h4>
+                <p>@Model.ErrorMessage</p>
+            </div>
+        }
+    </form>
+</div>

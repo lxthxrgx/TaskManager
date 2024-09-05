@@ -1,0 +1,53 @@
+﻿.task-main-menu {
+    padding: 15px;
+}
+
+.my-tasks, .another-tasks {
+    background-color: #393A5A;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+    .my-tasks h4, .another-tasks h4 {
+        color: #E9E9E9;
+    }
+
+.card {
+    margin-bottom: 15px;
+}
+    .my-tasks h4 {
+        width: 100%;
+    }
+
+    .another-tasks h4 {
+        width: 100%;
+    }
+.card-body {
+    margin-left: auto;
+    margin-right: auto;
+    align-content: center;
+}
+
+.plus {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(#fff,#fff), linear-gradient(#fff,#fff), #000;
+    background-position: center;
+    background-size: 50% 2px,2px 50%;
+    background-repeat: no-repeat;
+}
+
+.alt {
+    background: linear-gradient(#000,#000), linear-gradient(#000,#000);
+    background-position: center;
+    background-size: 50% 2px,2px 50%;
+    background-repeat: no-repeat;
+}
+
+.radius {
+    border-radius: 50%;
+}
