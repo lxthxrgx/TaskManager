@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using TaskManager.Database;
 using TaskManager.Sha512;
+using Microsoft.EntityFrameworkCore;
 
 namespace TaskManager.Pages
 {
@@ -27,7 +28,7 @@ namespace TaskManager.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var user = _context.Users.SingleOrDefault(x => x.Username == Username);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Username == Username);
 
             if (user == null)
             {
@@ -35,12 +36,12 @@ namespace TaskManager.Pages
                 return Page();
             }
 
-            if (Password == HashHelper.ComputeSha512Hash(user.Password))
+            if (HashHelper.ComputeSha512Hash(Password) == user.Password)
             {
                 var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, Username)
-        };
+                {
+                    new Claim(ClaimTypes.Name, Username)
+                };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -52,7 +53,6 @@ namespace TaskManager.Pages
             ShowError = true;
             return Page();
         }
-
 
     }
 

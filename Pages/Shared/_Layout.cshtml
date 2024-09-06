@@ -22,32 +22,32 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-page="/Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-
+                       
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-page="/profile">Hello, @User.Identity.Name!</a>
+                                <a class="nav-link text-white nav-link-left" asp-area="" asp-page="/profile">Hello, @User.Identity.Name!</a>
                             </li>
                             <li class="nav-item">
                                 <form method="post" asp-page="/logout">
-                                    <button type="submit" class="btn btn-link nav-link text-white">Logout</button>
+                                    <button type="submit" class="btn btn-link nav-link text-white nav-link-left">Logout</button>
                                 </form>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-page="/sign-up">Sign Up</a>
+                                <a class="nav-link text-white nav-link-left" asp-area="" asp-page="/SignUp">Sign Up</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-page="/sign-in">Sign In</a>
+                                <a class="nav-link text-white nav-link-left" asp-area="" asp-page="/SignIn">Sign In</a>
                             </li>
                             
                         }
-                    </ul>
+                        </ul>
+                    
                 </div>
             </div>
         </nav>

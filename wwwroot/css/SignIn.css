@@ -2,7 +2,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 90vh;
+	height: 80vh;
 }
 
 
@@ -68,6 +68,10 @@
 		margin: 5px 0 0;
 		font-size: 14px;
 	}
+
+.pb-3 {
+	padding-bottom: 0px !important;
+}
 
 @media (max-width: 600px) {
 	.signin {
