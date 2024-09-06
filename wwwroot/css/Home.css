@@ -17,6 +17,10 @@
 
 .card {
     margin-bottom: 15px;
+    margin-right: 10px;
+}
+.card-title {
+    text-align: center;
 }
     .my-tasks h4 {
         width: 100%;

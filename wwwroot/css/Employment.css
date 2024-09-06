@@ -19,6 +19,7 @@
     transition: background-color 0.3s, border 0.3s;
 }
 
+
 .drag-over {
     background-color: #e2e6ea;
     border: 2px dashed #007bff;
@@ -77,3 +78,34 @@
     .btn-arrow i {
         color: #007bff;
     }
+
+
+.plus {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(#fff,#fff), linear-gradient(#fff,#fff), #000;
+    background-position: center;
+    background-size: 50% 2px,2px 50%;
+    background-repeat: no-repeat;
+}
+
+.alt {
+    background: linear-gradient(#000,#000), linear-gradient(#000,#000);
+    background-position: center;
+    background-size: 50% 2px,2px 50%;
+    background-repeat: no-repeat;
+}
+
+.radius {
+    border-radius: 50%;
+}
+
+.tile-add {
+    display: flex;
+    padding: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    cursor: move;
+}
