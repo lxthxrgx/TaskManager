@@ -39,7 +39,7 @@ namespace TaskManager.Controllers
                 return BadRequest(new { success = false, message = $"Status '{request.NewStatus}' not found" });
             }
 
-            tile.Status = status.Name;
+            tile.StatusS = status.Name;
 
             _context.TaskClasses.Update(tile);
             await _context.SaveChangesAsync();

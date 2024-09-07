@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.JSInterop;
-using System.Security.Claims;
 using TaskManager.Database;
 using TaskManager.Class;
 using Microsoft.AspNetCore.Mvc;
@@ -62,9 +61,9 @@ namespace TaskManager.Pages
                 _context.Statuses.AddRange(status1, status2, status3);
                 await _context.SaveChangesAsync();
 
-                var task1 = new TaskClass { Title = "Task 1", Task = "Description for Task 1", StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(1), Status = "To Do", Employment = employment1 };
-                var task2 = new TaskClass { Title = "Task 2", Task = "Description for Task 2", StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(2), Status = "In Progress", Employment = employment1 };
-                var task3 = new TaskClass { Title = "Task 3", Task = "Description for Task 3", StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(3), Status = "Completed", Employment = employment2 };
+                var task1 = new TaskClass { Title = "Task 1", Task = "Description for Task 1", StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(1), StatusS = "To Do", Employment = employment1 };
+                var task2 = new TaskClass { Title = "Task 2", Task = "Description for Task 2", StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(2), StatusS = "In Progress", Employment = employment1 };
+                var task3 = new TaskClass { Title = "Task 3", Task = "Description for Task 3", StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(3), StatusS = "Completed", Employment = employment2 };
                 _context.TaskClasses.AddRange(task1, task2, task3);
                 await _context.SaveChangesAsync();
 

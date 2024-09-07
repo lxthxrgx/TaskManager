@@ -97,7 +97,7 @@ namespace TaskManager.Migrations
                     StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     EmploymentId = table.Column<int>(type: "integer", nullable: true),
-                    Status = table.Column<string>(type: "text", nullable: false),
+                    StatusS = table.Column<string>(type: "text", nullable: false),
                     StatusId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>

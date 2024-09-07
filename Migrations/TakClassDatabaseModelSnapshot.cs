@@ -81,12 +81,12 @@ namespace TaskManager.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<int?>("StatusId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("StatusS")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Task")
                         .HasColumnType("text");

@@ -44,7 +44,7 @@
         public int? EmploymentId { get; set; }
         public EmploymentClass? Employment { get; set; }
 
-        public string Status { get; set; }
+        public string StatusS { get; set; }
     }
 
     public class User
