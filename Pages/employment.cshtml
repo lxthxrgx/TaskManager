@@ -36,6 +36,34 @@
             </div>
         </div>
     }
+    <div class="column-add" class="tile tile-add" data-bs-toggle="modal" data-bs-target="#addTaskStatus">
+        <div class="plus radius">
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addTaskStatus" tabindex="-1" aria-labelledby="addTaskStatus" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTaskStatus">Додати Статус</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-page-handler="AddTaskStatus">
+                    <div class="mb-3">
+                        <label for="taskTitle" class="form-label">Назва</label>
+                        <input type="text" class="form-control" id="taskTitle" name="Title" required>
+                    </div>
+                    <input type="hidden" id="handlerValueHidden" name="Handler" value="@ViewData["Handler"]">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
+                        <button type="submit" class="btn btn-primary">Зберегти</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" id="addTaskModal" tabindex="-1" aria-labelledby="addTaskModal" aria-hidden="true">
@@ -64,7 +92,7 @@
                         <input type="text" class="form-control datepicker" id="taskDateEnd" name="EndDate" placeholder="Виберіть кінцеву дату" required>
                     </div>
                     <input type="hidden" id="taskStatus" name="Status">
-                    <input type="hidden" id="handlerValueHidden" name="Handler">
+                    <input type="hidden" id="handlerValueHidden" name="Handler" value="@ViewData["Handler"]">
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
@@ -90,6 +118,7 @@
                 <p><strong>Start Date:</strong> @Model.SelectedForm?.StartDate.ToString("dd.MM.yyyy")</p>
                 <p><strong>End Date:</strong> @Model.SelectedForm?.EndDate.ToString("dd.MM.yyyy")</p>
                 <p><strong>Status:</strong> @Model.SelectedForm?.StatusS</p>
+                <input type="hidden" id="handlerValueHidden" name="Handler" value="@ViewData["Handler"]">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

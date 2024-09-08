@@ -12,7 +12,6 @@ namespace TaskManager.Pages
     public class EmploymentModel : PageModel
     {
         private readonly TakClassDatabase _context;
-
         public EmploymentModel(TakClassDatabase context)
         {
             _context = context;
@@ -27,7 +26,6 @@ namespace TaskManager.Pages
 
         public async Task OnGetAsync()
         {
-            // Load statuses
             if (!string.IsNullOrEmpty(Handler))
             {
                 var employment = await _context.employments
@@ -51,6 +49,7 @@ namespace TaskManager.Pages
                 var tasks = await _context.TaskClasses.ToListAsync();
                 GroupedForms = tasks.ToLookup(t => t.StatusS);
             }
+            ViewData["Handler"] = Handler;
         }
 
         public async Task<IActionResult> OnPostOpenModalAsync(int id)
@@ -70,7 +69,7 @@ namespace TaskManager.Pages
             string title = Request.Form["Title"];
             string description = Request.Form["Description"];
             string statusName = Request.Form["Status"];
-            string handler = Request.Form["Handler"];
+            Handler = Request.Form["Handler"];
 
             DateTime startDate;
             DateTime endDate;
@@ -80,8 +79,8 @@ namespace TaskManager.Pages
             {
                 return BadRequest("Invalid date format");
             }
-            Console.WriteLine("HANDLER -------------------------->" + handler);
-            var employment = await _context.employments.FirstOrDefaultAsync(e => e.EmploymentName == handler);
+            Console.WriteLine("HANDLER -------------------------->" + Handler);
+            var employment = await _context.employments.FirstOrDefaultAsync(e => e.EmploymentName == Handler);
             if (employment == null)
             {
                 return NotFound("Employment not found");
@@ -107,7 +106,23 @@ namespace TaskManager.Pages
             _context.TaskClasses.Add(newTask);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage();
+            return RedirectToPage("/Employment", new { Handler = Handler });
+        }
+
+        public async Task<IActionResult> OnPostAddTaskStatusAsync()
+        {
+            string title = Request.Form["Title"];
+            Handler = Request.Form["Handler"];
+            var newStatus = new Status
+            {
+                Name = title,
+                EmpName = Handler
+            };
+
+            _context.Statuses.Add(newStatus);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("/Employment", new { Handler = Handler });
         }
 
 
