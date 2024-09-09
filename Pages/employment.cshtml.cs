@@ -187,6 +187,22 @@ namespace TaskManager.Pages
 
             return RedirectToPage("/Employment", new { Handler });
         }
+        public async Task<IActionResult> OnPostDeleteStatusAsync(int statusId)
+        {
+
+            var status = await _context.Statuses.FirstOrDefaultAsync(s => s.Id == statusId);
+
+            if (status == null)
+            {
+                ModelState.AddModelError(string.Empty, "Статус не найден.");
+                return Page();
+            }
+
+            _context.Statuses.Remove(status);
+
+            await _context.SaveChangesAsync();
+            return RedirectToPage("/Employment", new { Handler = Handler });
+        }
 
     }
 }

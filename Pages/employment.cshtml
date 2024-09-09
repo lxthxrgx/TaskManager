@@ -75,6 +75,13 @@
                         {
                             <li class="list-group-item" data-id="@status.Id" draggable="true" ondragstart="dragStatus(event)">
                                 @status.Name
+                                <form method="post" asp-action="DeleteStatus" class="d-inline">
+                                    <input type="hidden" name="statusId" value="@status.Id" />
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                    <input type="hidden" id="handlerValueHidden" name="Handler" value="@ViewData["Handler"]">
+                                </form>
                             </li>
                         }
                     </ul>
