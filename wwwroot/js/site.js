@@ -58,6 +58,8 @@ function drop(ev) {
     }
 }
 
+
+
 function openModal(modalId) {
     var modalElement = document.getElementById(modalId);
     if (modalElement) {

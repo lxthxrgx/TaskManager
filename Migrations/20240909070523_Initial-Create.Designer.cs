@@ -12,7 +12,7 @@ using TaskManager.Database;
 namespace TaskManager.Migrations
 {
     [DbContext(typeof(TakClassDatabase))]
-    [Migration("20240907204332_Initial-Create")]
+    [Migration("20240909070523_Initial-Create")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -59,6 +59,9 @@ namespace TaskManager.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
+
+                    b.Property<int>("Status_position")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

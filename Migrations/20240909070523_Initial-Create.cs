@@ -48,7 +48,8 @@ namespace TaskManager.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: true),
                     EmpName = table.Column<string>(type: "text", nullable: false),
-                    EmploymentId = table.Column<int>(type: "integer", nullable: true)
+                    EmploymentId = table.Column<int>(type: "integer", nullable: true),
+                    Status_position = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -9,8 +9,16 @@
 <link rel="stylesheet" href="/css/Employment.css" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <script src="~/js/site.js"></script>
+
+<div class="title-Name" style="display: flex; align-items: center; justify-content: space-between;">
+    <h4 id="handlerValueHidden" name="Handler" class="h4-ViewData">@ViewData["Handler"]</h4>
+    <button class="btn" id="menuButton" style="border: none; background: none;" data-bs-toggle="modal" data-bs-target="#changeStatus">
+        <i class="fas fa-ellipsis-v"></i>
+    </button>
+</div>
 
 <div class="Task">
     @foreach (var status in Model.Statuses)
@@ -41,6 +49,49 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="changeStatus" tabindex="-1" aria-labelledby="changeStatus" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changeStatus">Послідовність статусів</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-page-handler="ChangeStatus">
+                    <div class="mb-3">
+                        <label for="userSelect" class="form-label">Оберіть користувача</label>
+                        <select class="form-select" id="userSelect" name="SelectedUsername">
+                            @foreach (var user in Model.Users)
+                            {
+                                <option value="@user.Username">@user.Username</option>
+                            }
+                        </select>
+
+                    </div>
+
+                    <ul class="list-group" id="sortableList">
+                        @foreach (var status in Model.Statuses.OrderBy(s => s.Status_position))
+                        {
+                            <li class="list-group-item" data-id="@status.Id" draggable="true" ondragstart="dragStatus(event)">
+                                @status.Name
+                            </li>
+                        }
+                    </ul>
+
+                    <input type="hidden" id="sortedStatusIds" name="SortedStatusIds" />
+                    <input type="hidden" id="handlerValueHidden" name="Handler" value="@ViewData["Handler"]">
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
+                        <button type="submit" class="btn btn-primary" onclick="saveOrder()">Зберегти</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div class="modal fade" id="addTaskStatus" tabindex="-1" aria-labelledby="addTaskStatus" aria-hidden="true">
     <div class="modal-dialog">
@@ -134,4 +185,41 @@
     }
 
     document.getElementById("handlerValueHidden").value = "@Model.Handler";
+
+</script>
+<script>
+    function dragStatus(event) {
+        if (event.target.closest('#sortableList')) {
+            event.dataTransfer.setData("text", event.target.dataset.id);
+        }
+    }
+
+    document.getElementById('sortableList').addEventListener('dragover', function (event) {
+        event.preventDefault();
+    });
+
+    document.getElementById('sortableList').addEventListener('drop', function (event) {
+        event.preventDefault();
+
+        if (event.target.closest('#sortableList')) {
+            var draggedId = event.dataTransfer.getData("text");
+            var draggedItem = document.querySelector('#sortableList [data-id="' + draggedId + '"]');
+            var targetItem = event.target.closest('li');
+
+            if (draggedItem && targetItem && draggedItem !== targetItem) {
+                if (draggedItem.compareDocumentPosition(targetItem) & Node.DOCUMENT_POSITION_FOLLOWING) {
+                    targetItem.after(draggedItem);
+                } else {
+                    targetItem.before(draggedItem);
+                }
+            }
+        }
+    });
+
+    function saveOrder() {
+        var sortedIds = Array.from(document.querySelectorAll('#sortableList li')).map(function (li) {
+            return li.dataset.id;
+        });
+        document.getElementById('sortedStatusIds').value = sortedIds.join(',');
+    }
 </script>

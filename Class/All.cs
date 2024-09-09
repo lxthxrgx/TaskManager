@@ -19,6 +19,8 @@
         public EmploymentClass? Employment { get; set; }
 
         public ICollection<TaskClass> TaskClasses { get; set; } = new List<TaskClass>();
+
+        public int Status_position { get; set; }
     }
 
     public class TaskClass

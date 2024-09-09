@@ -47,7 +47,29 @@ namespace TaskManager.Controllers
             return Ok(new { success = true });
         }
 
+        [HttpPost("update-column-position")]
+        public async Task<IActionResult> UpdateColumnPosition([FromBody] List<ColumnPositionRequest> requests)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { success = false, message = "Invalid data" });
+            }
 
+            foreach (var request in requests)
+            {
+                var status = await _context.Statuses.FindAsync(request.Id);
+                if (status == null)
+                {
+                    return NotFound(new { success = false, message = $"Status with ID {request.Id} not found" });
+                }
+
+                status.Status_position = request.NewPosition;
+                _context.Statuses.Update(status);
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok(new { success = true });
+        }
 
 
         public class UpdateTilePositionRequest
@@ -55,5 +77,11 @@ namespace TaskManager.Controllers
             public int Id { get; set; }
             public string NewStatus { get; set; }
         }
+        public class ColumnPositionRequest
+        {
+            public int Id { get; set; }
+            public int NewPosition { get; set; }
+        }
+
     }
 }
