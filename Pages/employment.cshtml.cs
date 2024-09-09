@@ -33,8 +33,7 @@ namespace TaskManager.Pages
                 var employment = await _context.employments
                     .FirstOrDefaultAsync(e => e.EmploymentName == Handler);
 
-                if (employment != null)
-                {
+               
                     Statuses = await _context.Statuses
                      .Where(s => s.EmpName == employment.EmploymentName)
                      .OrderBy(s => s.Status_position)
@@ -44,7 +43,7 @@ namespace TaskManager.Pages
                         .Where(tc => tc.EmploymentId == employment.Id)
                         .ToListAsync();
                     GroupedForms = tasks.ToLookup(t => t.StatusS);
-                }
+               
             }
             else
             {
@@ -150,6 +149,7 @@ namespace TaskManager.Pages
                 {
                     status.Status_position = i + 1;
                     _context.Statuses.Update(status);
+                    await _context.SaveChangesAsync();
                 }
             }
 

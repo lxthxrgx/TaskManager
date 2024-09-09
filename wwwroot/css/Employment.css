@@ -1,4 +1,8 @@
-﻿.Task {
+﻿.container {
+    max-width: 100% !important;
+    padding: 10px !important;
+}
+.Task {
     display: flex;
     justify-content: flex-start;
     gap: 20px;
