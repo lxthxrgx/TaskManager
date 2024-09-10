@@ -16,9 +16,11 @@ namespace TaskManager.Pages
         {
             _context = context;
         }
-        public List<User> Users { get; set; }
+        public List<User>? Users { get; set; } = new List<User>();
         public List<Status> Statuses { get; set; } = new List<Status>();
         public ILookup<string, TaskClass> GroupedForms { get; set; } = new List<TaskClass>().ToLookup(f => f.StatusS);
+
+        [BindProperty]
         public TaskClass SelectedForm { get; set; }
 
         [BindProperty(SupportsGet = true)]
@@ -43,7 +45,7 @@ namespace TaskManager.Pages
                         .Where(tc => tc.EmploymentId == employment.Id)
                         .ToListAsync();
                     GroupedForms = tasks.ToLookup(t => t.StatusS);
-               
+                SelectedForm = tasks.FirstOrDefault();
             }
             else
             {
@@ -52,24 +54,7 @@ namespace TaskManager.Pages
                 GroupedForms = tasks.ToLookup(t => t.StatusS);
             }
             Users = await _context.Users.ToListAsync();
-            if (Users == null)
-            {
-                Users = new List<User>();
-            }
-
             ViewData["Handler"] = Handler;
-        }
-
-        public async Task<IActionResult> OnPostOpenModalAsync(int id)
-        {
-            SelectedForm = await _context.TaskClasses
-                .FirstOrDefaultAsync(t => t.Id == id);
-
-            if (SelectedForm != null)
-            {
-                return Page();
-            }
-            return NotFound();
         }
 
         public async Task<IActionResult> OnPostAddTaskAsync()
@@ -201,6 +186,46 @@ namespace TaskManager.Pages
             _context.Statuses.Remove(status);
 
             await _context.SaveChangesAsync();
+            return RedirectToPage("/Employment", new { Handler = Handler });
+        }
+        public async Task<IActionResult> OnPostEditTaskAsync()
+        {
+            Console.WriteLine($"Handler: {Handler}");
+            Console.WriteLine($"SelectedForm.Id: {SelectedForm?.Id}");
+            Console.WriteLine($"SelectedForm.Title: {SelectedForm?.Title}");
+            Console.WriteLine($"SelectedForm.Task: {SelectedForm?.Task}");
+            Console.WriteLine($"SelectedForm.StartDate: {SelectedForm?.StartDate}");
+            Console.WriteLine($"SelectedForm.EndDate: {SelectedForm?.EndDate}");
+            Console.WriteLine($"SelectedForm.StatusS: {SelectedForm?.StatusS}");
+
+            if (SelectedForm == null || SelectedForm.Id <= 0)
+            {
+                ModelState.AddModelError("", "Invalid task data.");
+                return Page();
+            }
+
+            var taskToUpdate = await _context.TaskClasses.FindAsync(SelectedForm.Id);
+
+            if (taskToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            var employmentId = await _context.employments
+                .Where(e => e.EmploymentName == Handler)
+                .Select(e => e.Id)
+                .FirstOrDefaultAsync();
+
+            taskToUpdate.Title = SelectedForm.Title;
+            taskToUpdate.Task = SelectedForm.Task;
+            taskToUpdate.StartDate = SelectedForm.StartDate;
+            taskToUpdate.EndDate = SelectedForm.EndDate;
+            taskToUpdate.StatusS = SelectedForm.StatusS;
+            taskToUpdate.EmploymentId = employmentId;
+
+            _context.TaskClasses.Update(taskToUpdate);
+            await _context.SaveChangesAsync();
+
             return RedirectToPage("/Employment", new { Handler = Handler });
         }
 

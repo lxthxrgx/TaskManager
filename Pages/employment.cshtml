@@ -34,7 +34,6 @@
                          ondragstart="drag(event)"
                          data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#editTaskModal">
                         <div class="tile-title">@item.Title</div>
-                        <div class="tile-task">@item.Task</div>
                     </div>
                 }
                 <div class="tile tile-add" data-status="@status.Name" data-bs-toggle="modal" data-bs-target="#addTaskModal" onclick="setStatus('@status.Name')">
@@ -166,25 +165,43 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editTaskModalLabel">@Model.SelectedForm?.Title</h5>
+                <h5 class="modal-title" id="editTaskModalLabel">Edit @Model.SelectedForm?.Title</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <p>@Model.SelectedForm?.Task</p>
-                <input type="text" class="form-control" placeholder="Title" value="@Model.SelectedForm?.Title" />
-                <textarea class="form-control" placeholder="Task">@Model.SelectedForm?.Task</textarea>
-                <p><strong>Start Date:</strong> @Model.SelectedForm?.StartDate.ToString("dd.MM.yyyy")</p>
-                <p><strong>End Date:</strong> @Model.SelectedForm?.EndDate.ToString("dd.MM.yyyy")</p>
-                <p><strong>Status:</strong> @Model.SelectedForm?.StatusS</p>
-                <input type="hidden" id="handlerValueHidden" name="Handler" value="@ViewData["Handler"]">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+            <form method="post" asp-page-handler="EditTask" id="editTaskForm">
+                <input type="hidden" name="SelectedForm.Id" value="@Model.SelectedForm?.Id" />
+                <input type="hidden" name="Handler" value="@Model.Handler" />
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="SelectedForm.Title" value="@Model.SelectedForm?.Title" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="task" class="form-label">Task</label>
+                        <textarea class="form-control" id="task" name="SelectedForm.Task">@Model.SelectedForm?.Task</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="startDate" class="form-label">Start Date</label>
+                        <input type="date" class="form-control" id="startDate" name="SelectedForm.StartDate" value="@Model.SelectedForm?.StartDate.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="endDate" class="form-label">End Date</label>
+                        <input type="date" class="form-control" id="endDate" name="SelectedForm.EndDate" value="@Model.SelectedForm?.EndDate.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <input type="text" class="form-control" id="status" name="SelectedForm.StatusS" value="@Model.SelectedForm?.StatusS" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
 
 <script>
     function setStatus(statusName) {
@@ -223,10 +240,4 @@
         }
     });
 
-    function saveOrder() {
-        var sortedIds = Array.from(document.querySelectorAll('#sortableList li')).map(function (li) {
-            return li.dataset.id;
-        });
-        document.getElementById('sortedStatusIds').value = sortedIds.join(',');
-    }
 </script>
