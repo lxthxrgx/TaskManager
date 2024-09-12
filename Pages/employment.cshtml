@@ -241,3 +241,101 @@
     });
 
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const taskTiles = document.querySelectorAll('.tile');
+
+        taskTiles.forEach(tile => {
+            tile.addEventListener('click', function () {
+                const taskId = this.getAttribute('data-id');
+
+                // Очистить форму перед загрузкой данных
+                clearEditTaskForm();
+
+                // Выполняем запрос для получения данных задачи по ее ID
+                fetch(`/Tasks/GetTaskById/${taskId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            // Заполняем форму в модальном окне полученными данными
+                            document.getElementById('title').value = data.task.title || '';
+                            document.getElementById('task').value = data.task.description || '';
+                            document.getElementById('startDate').value = data.task.startDate ? new Date(data.task.startDate).toISOString().split('T')[0] : '';
+                            document.getElementById('endDate').value = data.task.endDate ? new Date(data.task.endDate).toISOString().split('T')[0] : '';
+                            document.getElementById('status').value = data.task.status || 'Active';
+
+                            // Также сохраняем ID задачи, чтобы отправить его при сохранении изменений
+                            document.querySelector('input[name="SelectedForm.Id"]').value = taskId;
+                        } else {
+                            console.error('Error fetching task data:', data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching task data:', error);
+                    });
+            });
+        });
+
+        function clearEditTaskForm() {
+            // Очищаем поля формы при открытии нового модального окна
+            document.getElementById('title').value = '';
+            document.getElementById('task').value = '';
+            document.getElementById('startDate').value = '';
+            document.getElementById('endDate').value = '';
+            document.getElementById('status').value = 'Active';
+            document.querySelector('input[name="SelectedForm.Id"]').value = '';
+        }
+    });
+
+
+        document.getElementById('saveButton').addEventListener('click', function () {
+            const form = document.getElementById('addTaskForm');
+            const formData = new FormData(form);
+
+            const data = {
+                Num: formData.get('TestviewTest.Num') || '',
+                Date: new Date(formData.get('TestviewTest.Date')).toISOString(),
+                Name: formData.get('TestviewTest.Name') || '',
+                rnokpp: formData.get('TestviewTest.rnokpp') || '',
+                status: formData.get('TestviewTest.status') || 'Active',
+                NumberGroup: currentNumberGroup
+            };
+
+            console.log('Data being sent:', data);
+
+            fetch('/ModalWindowGroupsPage/AddRentData', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.text().then(text => { throw new Error(text); });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        // window.location.href = '/Groups';
+                    } else {
+                        console.error('Error saving data:', data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+    });
+
+</script>
