@@ -23,19 +23,19 @@ namespace TaskManager.Controllers
 
             if (testviewTest == null)
             {
-                return Json(new { success = false, message = $"Запись с TaskClasses = {testviewTest.Id} не найдена в SubleaseDop." });
+                return Json(new { success = false, message = $"Запись с TaskClasses = {id} не найдена." });
             }
 
             return Json(new
             {
                 success = true,
-                data = new
+                task = new
                 {
                     id = testviewTest.Id,
-                    date = testviewTest.Title,
-                    num = testviewTest.Task,
-                    name = testviewTest.StartDate.ToString("yyyy-MM-dd"),
-                    rnokpp = testviewTest.EndDate.ToString("yyyy-MM-dd"),
+                    title = testviewTest.Title,
+                    description = testviewTest.Task,
+                    startDate = testviewTest.StartDate.ToString("yyyy-MM-dd"),
+                    endDate = testviewTest.EndDate.ToString("yyyy-MM-dd"),
                     status = testviewTest.StatusS
                 }
             });

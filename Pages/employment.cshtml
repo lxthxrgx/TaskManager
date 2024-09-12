@@ -32,7 +32,9 @@
                          id="tile-@item.Id"
                          draggable="true"
                          ondragstart="drag(event)"
-                         data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#editTaskModal">
+                         data-id="@item.Id"
+                         data-bs-toggle="modal"
+                         data-bs-target="#editTaskModal">
                         <div class="tile-title">@item.Title</div>
                     </div>
                 }
@@ -165,37 +167,37 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editTaskModalLabel">Edit @Model.SelectedForm?.Title</h5>
+                <h5 class="modal-title" id="editTaskModalLabel">Edit Task</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form method="post" asp-page-handler="EditTask" id="editTaskForm">
-                <input type="hidden" name="SelectedForm.Id" value="@Model.SelectedForm?.Id" />
+                <input type="hidden" id="editTaskModalLabelID" name="SelectedForm.Id" />
                 <input type="hidden" name="Handler" value="@Model.Handler" />
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="title" name="SelectedForm.Title" value="@Model.SelectedForm?.Title" />
+                        <input type="text" class="form-control" id="title" name="SelectedForm.Title" />
                     </div>
                     <div class="mb-3">
                         <label for="task" class="form-label">Task</label>
-                        <textarea class="form-control" id="task" name="SelectedForm.Task">@Model.SelectedForm?.Task</textarea>
+                        <textarea class="form-control" id="task" name="SelectedForm.Task"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="startDate" class="form-label">Start Date</label>
-                        <input type="date" class="form-control" id="startDate" name="SelectedForm.StartDate" value="@Model.SelectedForm?.StartDate.ToString("yyyy-MM-dd")" />
+                        <input type="date" class="form-control" id="startDate" name="SelectedForm.StartDate" />
                     </div>
                     <div class="mb-3">
                         <label for="endDate" class="form-label">End Date</label>
-                        <input type="date" class="form-control" id="endDate" name="SelectedForm.EndDate" value="@Model.SelectedForm?.EndDate.ToString("yyyy-MM-dd")" />
+                        <input type="date" class="form-control" id="endDate" name="SelectedForm.EndDate" />
                     </div>
                     <div class="mb-3">
                         <label for="status" class="form-label">Status</label>
-                        <input type="text" class="form-control" id="status" name="SelectedForm.StatusS" value="@Model.SelectedForm?.StatusS" />
+                        <input type="text" class="form-control" id="status" name="SelectedForm.StatusS" />
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button id="saveButton" class="btn btn-primary">Save</button>
                 </div>
             </form>
         </div>
@@ -249,10 +251,8 @@
             tile.addEventListener('click', function () {
                 const taskId = this.getAttribute('data-id');
 
-                // Очистить форму перед загрузкой данных
                 clearEditTaskForm();
 
-                // Выполняем запрос для получения данных задачи по ее ID
                 fetch(`/Tasks/GetTaskById/${taskId}`, {
                     method: 'GET',
                     headers: {
@@ -266,16 +266,13 @@
                         return response.json();
                     })
                     .then(data => {
-                        if (data.success) {
-                            // Заполняем форму в модальном окне полученными данными
+                        if (data.success && data.task) {
+                            document.getElementById('editTaskModalLabelID').value = taskId || '';
                             document.getElementById('title').value = data.task.title || '';
                             document.getElementById('task').value = data.task.description || '';
-                            document.getElementById('startDate').value = data.task.startDate ? new Date(data.task.startDate).toISOString().split('T')[0] : '';
-                            document.getElementById('endDate').value = data.task.endDate ? new Date(data.task.endDate).toISOString().split('T')[0] : '';
+                            document.getElementById('startDate').value = data.task.startDate || '';
+                            document.getElementById('endDate').value = data.task.endDate || '';
                             document.getElementById('status').value = data.task.status || 'Active';
-
-                            // Также сохраняем ID задачи, чтобы отправить его при сохранении изменений
-                            document.querySelector('input[name="SelectedForm.Id"]').value = taskId;
                         } else {
                             console.error('Error fetching task data:', data.message);
                         }
@@ -287,55 +284,51 @@
         });
 
         function clearEditTaskForm() {
-            // Очищаем поля формы при открытии нового модального окна
             document.getElementById('title').value = '';
             document.getElementById('task').value = '';
             document.getElementById('startDate').value = '';
             document.getElementById('endDate').value = '';
             document.getElementById('status').value = 'Active';
-            document.querySelector('input[name="SelectedForm.Id"]').value = '';
+            document.getElementById('editTaskModalLabelID').value = '';
         }
     });
 
+    document.getElementById('saveButton').addEventListener('click', function () {
+        const form = document.getElementById('addTaskForm');
+        const formData = new FormData(form);
 
-        document.getElementById('saveButton').addEventListener('click', function () {
-            const form = document.getElementById('addTaskForm');
-            const formData = new FormData(form);
+        const data = {
+            Num: formData.get('TestviewTest.Num') || '',
+            Date: new Date(formData.get('TestviewTest.Date')).toISOString(),
+            Name: formData.get('TestviewTest.Name') || '',
+            rnokpp: formData.get('TestviewTest.rnokpp') || '',
+            status: formData.get('TestviewTest.status') || 'Active',
+            NumberGroup: currentNumberGroup
+        };
 
-            const data = {
-                Num: formData.get('TestviewTest.Num') || '',
-                Date: new Date(formData.get('TestviewTest.Date')).toISOString(),
-                Name: formData.get('TestviewTest.Name') || '',
-                rnokpp: formData.get('TestviewTest.rnokpp') || '',
-                status: formData.get('TestviewTest.status') || 'Active',
-                NumberGroup: currentNumberGroup
-            };
+        console.log('Data being sent:', data);
 
-            console.log('Data being sent:', data);
-
-            fetch('/ModalWindowGroupsPage/AddRentData', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
+        fetch('/ModalWindowGroupsPage/AddRentData', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => { throw new Error(text); });
+                }
+                return response.json();
             })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.text().then(text => { throw new Error(text); });
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        // window.location.href = '/Groups';
-                    } else {
-                        console.error('Error saving data:', data.message);
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        });
-
+            .then(data => {
+                if (data.success) {
+                    // window.location.href = '/Groups';
+                } else {
+                    console.error('Error saving data:', data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
     });
 
 </script>
