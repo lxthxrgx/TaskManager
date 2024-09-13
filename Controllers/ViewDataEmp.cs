@@ -41,7 +41,7 @@ namespace TaskManager.Controllers
             });
         }
 
-        [Route("ModalWindowGroupsPage/AddRentData")]
+        [Route("Tasks/AddTaskData")]
         [HttpPost]
         public async Task<IActionResult> AddRentData([FromBody] TaskClass model)
         {
