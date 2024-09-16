@@ -2,6 +2,8 @@
 for details on configuring this project to bundle and minify static web assets. */
 .navbar {
     background-color: #393A5A !important;
+    margin: 10px;
+    border-radius: 10px;
 }
 a.navbar-brand {
   white-space: normal;

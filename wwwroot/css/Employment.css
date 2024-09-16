@@ -31,6 +31,7 @@
 
 
 .title-to-do {
+    text-align: center;
     font-weight: bold;
     margin-bottom: 10px;
 }
@@ -46,13 +47,17 @@
     background-color: #e9ecef;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    cursor: move;
 }
 
 .tile-title {
     font-weight: bold;
     margin-bottom: 5px;
 }
+
+    .tile:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+    }
 
 .tile-task {
     color: #6c757d;
@@ -111,7 +116,6 @@
     background-color: #e9ecef;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    cursor: move;
     justify-content: center;
     align-items: center;
 }
@@ -131,11 +135,16 @@
     height: 40px
 }
 
-.h4-ViewData {
-    display: flex;
-    justify-content: flex-start;
-    gap: 20px;
-    padding: 15px;
-    margin-left: auto;
-    margin-right: auto;
-}
+    .column-add:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .h4-ViewData {
+        display: flex;
+        justify-content: flex-start;
+        gap: 20px;
+        padding: 15px;
+        margin-left: auto;
+        margin-right: auto;
+    }

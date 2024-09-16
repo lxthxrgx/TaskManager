@@ -15,10 +15,9 @@
 
         @foreach (var item in Model.UserEmployment)
         {
-            <div class="card" style="width: 18rem;">
+            <div class="card" type="button" style="width: 18rem;" onclick="window.location.href='@Model.BuildEmploymentUrl(item.EmploymentName)'">
                 <div class="card-body">
-                    <h5 class="card-title">@item.EmploymentName</h5>
-                    <a href="@Model.BuildEmploymentUrl(item.EmploymentName)" class="btn btn-primary">Open</a>
+                    <h5 class="card-title" style="user-select: none;">@item.EmploymentName</h5>
                 </div>
             </div>
         }

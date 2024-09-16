@@ -55,3 +55,18 @@
 .radius {
     border-radius: 50%;
 }
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn.btn-primary {
+    background-color: #706f8e;
+    border-color: #706f8e;
+}
+
+    .btn.btn-primary:hover {
+        background-color: #393A5A;
+        border-color: #393A5A;
+    }
