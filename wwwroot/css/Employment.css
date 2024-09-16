@@ -44,9 +44,10 @@
 
 .tile {
     padding: 10px;
-    background-color: #e9ecef;
+    background-color: #bfb8e1;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .tile-title {
@@ -54,10 +55,11 @@
     margin-bottom: 5px;
 }
 
-    .tile:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
-    }
+.tile:hover {
+    transform: scale(1.05);
+    background-color: #aba5c7 !important;
+    box-shadow: 0 10px 15px #393A5A;
+}
 
 .tile-task {
     color: #6c757d;
@@ -113,7 +115,7 @@
 .tile-add {
     display: flex;
     padding: 10px;
-    background-color: #e9ecef;
+    background-color: #787794;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     justify-content: center;
@@ -137,7 +139,7 @@
 
     .column-add:hover {
         transform: scale(1.05);
-        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 10px 15px #393A5A;
     }
 
     .h4-ViewData {
